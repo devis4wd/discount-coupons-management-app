@@ -14,21 +14,21 @@ The original request behind this project sounded straightforward: reproduce the 
 
 That works until you start asking a few less straightforward questions.
 
-Who does a coupon belong to?
+*Who does a coupon belong to?*
 
-How do you know whether that client already has the same discount?
+*How do you know whether that client already has the same discount?*
 
-What happens after the first few dozen clients?
+*What happens after the first few dozen clients?*
 
-Where does the history live?
+*Where does the history live?*
 
-Which data should remain stable if a client's information changes?
+*Which data should remain stable if a client's information changes?*
 
-Should JavaScript be trusted to decide what gets stored?
+*Should JavaScript be trusted to decide what gets stored?*
 
-How do reusable discount conditions differ from the coupon eventually assigned to a client?
+*How do reusable discount conditions differ from the coupon eventually assigned to a client?*
 
-And, if coupons are eventually supposed to be redeemed somewhere else, which system should actually know that a coupon has been used?
+*And, if coupons are eventually supposed to be redeemed somewhere else, which system should actually know that a coupon has been used?*
 
 At that point, simply recreating the spreadsheet no longer made much sense.
 
@@ -305,7 +305,7 @@ PHP, Apache, MySQL, Node/Tailwind and phpMyAdmin run inside containers.
 Clone the repository:
 
 ```bash
-git clone [<repository-url>](https://github.com/devis4wd/discount-coupons-management-app.git)
+git clone https://github.com/devis4wd/discount-coupons-management-app.git
 cd discount-coupons-management-app
 ```
 
