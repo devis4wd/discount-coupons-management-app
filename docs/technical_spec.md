@@ -1,4 +1,4 @@
-# Technical Specification --- Discount Coupons CRUD
+# Technical Specification --- Discount Coupons Management App
 
 > Concise implementation reference for the current project. This
 > document defines the technical structure and business rules that

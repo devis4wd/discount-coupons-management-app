@@ -1,4 +1,4 @@
-# Design Decisions --- Discount Coupons CRUD
+# Design Decisions --- Discount Coupons Management App
 
 > Working design log for the project. This file records the stable
 > project constraints, the main design decisions, and the problems that
