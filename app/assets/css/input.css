@@ -1,0 +1,132 @@
+/*MANDATORY import to make Tailwind work, to be added before running docker compose build or docker compose up -d*/
+@import "tailwindcss";
+
+
+/*Added breakpoint and custom font and color variables following Tailwind rules*/
+@theme {
+    /*Add a custom breakpoint in addition to the standard Tailwind ones (sm, md, lg, etc.)*/
+    --breakpoint-xs: 21rem;
+
+    /*Add a CSS variable dynamically calculated by JS to correctly position the mobile navigation menu*/
+    --header-height: 0px;
+
+    /*Custom fonts that must always follow the '--font-[custom-name]' naming convention in order to be used in Tailwind*/
+    --font-inter-sans: "Inter", system-ui, sans-serif;
+
+    /*Custom colors that must always follow the '--color-[custom-name]' naming convention in order to be used in Tailwind*/
+    --color-primary-blue: #176B87;
+    --color-mid-blue: #BFE3F0;
+    --color-light-blue: #EAF6FB;
+
+    --color-primary-green: #13766A;
+    --color-light-green: #E5F6F1;
+
+    --color-primary-orange: #A9442D;
+    --color-light-orange: #FDE8E2;
+
+    --color-primary-grey: #5F6B73;
+    --color-mid-grey: #D7DEE2;
+    --color-light-grey: #F2F2F2;
+    --color-help-grey: #92999e;
+
+    --color-primary-black: #2F3439;
+    --color-white: #fff;
+}
+
+
+/*Add custom classes in accordance with Tailwind CSS */
+@layer components {
+
+    /*Set a class that is applied by JS to block scrolling when the mobile menu is open - It still might not be sufficient for Safari*/
+    body.no-scroll {
+        @apply overflow-hidden;
+    }
+
+    /*Buttons (btn-custom class + class for colors)*/
+    .btn-custom {
+        @apply text-center px-3 py-1 md:px-4 md:py-1 rounded-xl font-medium transition duration-300 ease-in cursor-pointer;
+    }
+
+    .btn-filled-green {
+        @apply bg-light-green text-primary-green border border-primary-green hover:bg-primary-green hover:text-white;
+    }
+
+    .btn-filled-orange {
+        @apply bg-light-orange text-primary-orange border border-primary-orange hover:bg-primary-orange hover:text-white;
+    }
+
+    .btn-filled-blue {
+        @apply bg-light-blue text-primary-blue border border-primary-blue hover:bg-primary-blue hover:text-white;
+    }
+
+    .btn-empty-orange {
+        @apply bg-white text-primary-orange border border-primary-orange hover:bg-primary-orange hover:text-white;
+    }
+
+    /*Only for Login or Save buttons */
+    .btn-filled-blue-submit {
+        @apply block border-none bg-primary-blue text-white focus:outline-primary-green hover:bg-primary-green hover:text-primary-black hover:border-none;
+    }
+
+    /*Active/inactive status tag*/
+    .status-tag {
+        @apply px-2 py-1 rounded-xl font-medium;
+    }
+
+    .status-tag-active {
+        @apply bg-light-green text-primary-green border-primary-green;
+    }
+
+    .status-tag-inactive {
+        @apply bg-light-orange text-primary-orange border-primary-orange;
+    }
+
+    /* Input and select field style */
+    .input-normal-style {
+        @apply py-1 px-2 border border-mid-blue rounded-lg bg-white text-primary-black focus:outline-none focus:border-primary-blue;
+    }
+
+    .input-error {
+        @apply border border-primary-orange rounded-lg py-1 px-2 focus:outline-none focus:border-primary-orange placeholder:text-primary-grey;
+    }
+
+    /* Active/inactive status toggle style  */
+    .toggle-track {
+        /* Base toggle background style (unchecked state) */
+        @apply bg-primary-orange;
+    }
+
+    .toggle-checkbox:checked+.toggle-track {
+        /* Toggle background style in checked state */
+        @apply bg-primary-green;
+    }
+
+    /* Toggle knob position when toggle is in checked state */
+
+    /* Position distance for small-size toggles (in tables) */
+    .small-size-toggle-checkbox:checked+.toggle-track .toggle-knob {
+        @apply translate-x-3;
+        /*12px of travel*/
+    }
+
+    /* Position distance for regular-size toggles (in forms) */
+    .regular-size-toggle-checkbox:checked+.toggle-track .toggle-knob {
+        @apply translate-x-4;
+        /*24px of travel*/
+    }
+
+    /*Selected table filter text formatting*/
+    .active-filter {
+        @apply font-bold;
+    }
+
+    /*Underline effect for hover effect on main navbar links */
+    .underline-effect-navbar-link {
+        @apply relative inline-block after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[1px] after:w-0 after:bg-primary-blue after:opacity-75 after:transition-all hover:after:w-full;
+    }
+
+    /*Color style and click disabling for the current page nav link*/
+    .current-page {
+        @apply text-primary-green pointer-events-none cursor-default;
+    }
+}

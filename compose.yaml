@@ -1,0 +1,109 @@
+#version: '3.9'   # Obsolete top-level field in modern Docker Compose; Compose uses the current Compose Specification
+
+services:
+  # ------------------------------------------------------------
+  # PHP + Apache service (backend)
+  # ------------------------------------------------------------
+  php:
+    build:
+      context: ./docker/php          # Directory containing the PHP Dockerfile
+    container_name: php_app          # Explicit container name (convenient for commands such as docker logs php_app)
+    restart: unless-stopped          # Restart automatically unless the container is explicitly stopped
+    ports:
+      - "8080:80"                    # Map container port 80 to host port 8080
+    volumes:
+      - ./app:/var/www/html          # Bind mount: local application code (./app) is available inside the container
+    environment:
+    # If the variables are not defined in .env, use the local demo defaults (app_db, app_user, secret, etc.) so the container can still run.
+    # In a real deployment, non-public credentials should be supplied through environment configuration instead of relying on these demo defaults.
+      MYSQL_HOST: db                 # Database service name, resolvable through the Compose network
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-app_db}
+      MYSQL_USER: ${MYSQL_USER:-app_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-secret}
+    depends_on:
+      db:
+        condition: service_healthy   # Wait for the database healthcheck to pass before starting this service
+    networks:
+      - app_network                  # Attach the service to the shared custom network
+
+  # ------------------------------------------------------------
+  # MySQL service (database)
+  # ------------------------------------------------------------
+  db:
+    image: mysql:8.4                 # Use the prebuilt MySQL image; no custom Dockerfile is required
+    container_name: mysql_db
+    restart: unless-stopped
+    ports:
+      - "3306:3306"                  # Expose MySQL to the host (optional, useful for external clients such as DBeaver)
+    environment:
+    # If the variables are not defined in .env, use the local demo defaults (app_db, app_user, secret, etc.) so the container can still run.
+    # In a real deployment, non-public credentials should be supplied through environment configuration instead of relying on these demo defaults.
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootsecret}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-app_db} # Use app_db as the local fallback if MYSQL_DATABASE is not defined
+      MYSQL_USER: ${MYSQL_USER:-app_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-secret}
+    volumes:
+      - db_data:/var/lib/mysql       # Named volume: database data persists across docker compose down
+      #Decomment the following line when you make this project available on GitHub. 
+      #It will allow the automatic import of the /database/demo_database.sql import file containing the whole database with demo/dummy data
+      - ./database/demo_database.sql:/docker-entrypoint-initdb.d/demo_database.sql:ro 
+    networks:
+      - app_network
+    healthcheck:                     # Periodically check whether the MySQL server is responding
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s                  # Run the healthcheck every 10 seconds
+      timeout: 5s
+      retries: 5
+      start_period: 30s              # Give MySQL 30 seconds to initialize before failures count toward retries
+
+  # ------------------------------------------------------------
+  # Tailwind CSS service (watcher)
+  # ------------------------------------------------------------
+  tailwind:
+    build:
+      context: ./docker/tailwind      # Build the image from the Tailwind Dockerfile
+    container_name: tailwind_watcher
+    restart: unless-stopped
+    working_dir: /app
+    tty: true                    # Allocate a pseudo-TTY
+    stdin_open: true             # Keep standard input open
+    volumes:
+      - ./app:/app   # Bind mount for the application source files
+      - /app/node_modules             # Anonymous volume: keeps container-installed node_modules from being hidden by the parent /app bind mount
+    # Run the Tailwind CLI in watch mode so output.css is rebuilt when relevant source files change.
+    # Tailwind CSS v4 performs automatic source detection; the explicit PHP glob is retained here as part of the existing project command.
+    # Tailwind generates utilities detected in the project sources rather than emitting the entire framework indiscriminately.
+    command: npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --watch --content './**/*.php'
+    networks:
+      - app_network
+
+  # ------------------------------------------------------------
+  # phpMyAdmin service (web interface for MySQL)
+  # ------------------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin:latest          # Use the prebuilt phpMyAdmin image; no local build is required
+    container_name: crud_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"                     # Access phpMyAdmin at http://localhost:8081
+    environment:
+      PMA_HOST: db                    # Database service name
+      PMA_USER: ${MYSQL_USER:-app_user}
+      PMA_PASSWORD: ${MYSQL_PASSWORD:-secret}
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+# ------------------------------------------------------------
+# Named volumes (managed by Docker rather than as normal project directories)
+# ------------------------------------------------------------
+volumes:
+  db_data:          # Persist MySQL database files
+
+# ------------------------------------------------------------
+# Custom bridge network shared by the services; they can resolve each other by service name
+# ------------------------------------------------------------
+networks:
+  app_network:
+    driver: bridge

@@ -1,0 +1,45 @@
+time="2026-06-16T16:47:29+02:00" level=warning msg="/home/devis/Docker/Projects/crud-app-coupons/compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+time="2026-06-16T16:47:29+02:00" level=warning msg="Docker Compose is configured to build using Bake, but buildx isn't installed"
+#0 building with "default" instance using docker driver
+
+#1 [tailwind internal] load build definition from Dockerfile
+#1 transferring dockerfile: 597B done
+#1 DONE 0.0s
+
+#2 [tailwind internal] load metadata for docker.io/library/node:22-alpine
+#2 DONE 0.0s
+
+#3 [tailwind internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [tailwind 1/4] FROM docker.io/library/node:22-alpine@sha256:9385cd9f3001dfc3431e8ead12c43e9e1f87cc1b9b5c6cfd0f73865d405b27c4
+#4 resolve docker.io/library/node:22-alpine@sha256:9385cd9f3001dfc3431e8ead12c43e9e1f87cc1b9b5c6cfd0f73865d405b27c4 0.0s done
+#4 DONE 0.0s
+
+#5 [tailwind internal] load build context
+#5 transferring context: 70B done
+#5 DONE 0.0s
+
+#6 [tailwind 3/4] COPY package*.json ./
+#6 CACHED
+
+#7 [tailwind 2/4] WORKDIR /app
+#7 CACHED
+
+#8 [tailwind 4/4] RUN npm ci
+#8 CACHED
+
+#9 [tailwind] exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:01348b7d76fe6aff6b9963cbb50fd97fafd88ed8cda0189ca0c44fb20dd0592a done
+#9 exporting config sha256:6fb29a4faf9ffc58c9c3db9b71c7188d4bad0d5bc9a795c3b9cf093f5a410b64 done
+#9 exporting attestation manifest sha256:658f87dc99152fa8f3fc89b6c7866ac2866a980fdc1e7705d468fc90a5d60ba9 done
+#9 exporting manifest list sha256:b17ddb165734c8065d367bf5b90f73e4e963436ee1133ac5797486113395e2dd done
+#9 naming to docker.io/library/crud-app-coupons-tailwind:latest done
+#9 unpacking to docker.io/library/crud-app-coupons-tailwind:latest done
+#9 DONE 0.0s
+
+#10 [tailwind] resolving provenance for metadata file
+#10 DONE 0.0s
+ tailwind  Built
