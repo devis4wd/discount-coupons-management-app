@@ -118,7 +118,7 @@ if ($form_submitted) {
                     //Only active users reach this point, therefore session status is always 1.
                     $_SESSION['user_status'] = 1;
 
-                    header('Location: public/index.php');
+                    header('Location: index.php');
                     exit;
                 }
             } else {
