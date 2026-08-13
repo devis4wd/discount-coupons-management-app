@@ -21,7 +21,7 @@ IMPORTANT: the same authorization control is repeated inside users-api.php. This
 would NOT be enough, because users could otherwise try to call the API endpoint directly without opening this frontend page.
 */
 if (!isset($_SESSION['user_id']) ||  ($_SESSION['user_role'] ?? null) !== 'admin' ||  (int) ($_SESSION['user_status'] ?? 0) !== 1) {
-    header('Location: index.php');
+    header('Location: ../index.php');
     exit;
 }
 
