@@ -10,7 +10,7 @@ $_SESSION = [];
 session_destroy();
 
 // Redirect to index.php > if user is no logged in, it'll redirect to login.php page
-header('location: public/index.php');
+header('location: index.php');
 exit();
 
 ?>
