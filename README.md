@@ -10,7 +10,12 @@ The project deliberately keeps a relatively simple stack — PHP, MySQL, vanilla
 
 ## From a spreadsheet to an actual system
 
-The original request behind this project sounded straightforward: reproduce the logic of an existing spreadsheet inside a 'ridiculously simple' web page to add to our website and generate coupon codes by concatenating a few selected values.
+The original request behind this project sounded straightforward: reproduce the logic of an existing spreadsheet inside simple web page to add to a client's website and generate coupon codes by concatenating a few selected values.
+
+![Sanitized version of the original spreadsheet workflow](./docs/screenshots/original-spreadsheet-workflow.png)
+
+*Sanitized reconstruction of the spreadsheet prototype that inspired the project.
+All names and example data shown here are fictional.*
 
 That works until you start asking a few less straightforward questions.
 
