@@ -44,8 +44,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-secret}
     volumes:
       - db_data:/var/lib/mysql       # Named volume: database data persists across docker compose down
-      #Decomment the following line when you make this project available on GitHub. 
-      #It will allow the automatic import of the /database/demo_database.sql import file containing the whole database with demo/dummy data
+      #The following line will automatically import the /database/demo_database.sql file with the whole database and dummy data when db is intialized the first time
       - ./database/demo_database.sql:/docker-entrypoint-initdb.d/demo_database.sql:ro 
     networks:
       - app_network
